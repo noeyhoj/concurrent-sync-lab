@@ -20,7 +20,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun BottomNavigationBar(modifier: Modifier = Modifier) {
+fun BottomNavigationBar(
+    onHomeClick: () -> Unit,
+    onWordBookClick: () -> Unit,
+    onFeedClick: () -> Unit,
+    onMyPageClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier
             .padding(horizontal = 32.dp, vertical = 8.dp)
@@ -30,22 +36,22 @@ fun BottomNavigationBar(modifier: Modifier = Modifier) {
         NavIconButton(
             navIcon = Icons.Default.Home,
             navText = "홈",
-            onNavClick = {}
+            onNavClick = onHomeClick
         )
         NavIconButton(
             navIcon = Icons.Default.AccountBox,
             navText = "단어장",
-            onNavClick = {}
+            onNavClick = onWordBookClick
         )
         NavIconButton(
             navIcon = Icons.Default.Info,
             navText = "피드",
-            onNavClick = {}
+            onNavClick = onFeedClick
         )
         NavIconButton(
             navIcon = Icons.Default.Person,
             navText = "마이",
-            onNavClick = {}
+            onNavClick = onMyPageClick
         )
     }
 }

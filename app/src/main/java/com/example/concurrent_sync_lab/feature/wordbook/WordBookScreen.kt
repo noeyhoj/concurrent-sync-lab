@@ -30,9 +30,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun WordBookScreen() {
+fun WordBookScreen(
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         SearchBar()
         WordCardList(
