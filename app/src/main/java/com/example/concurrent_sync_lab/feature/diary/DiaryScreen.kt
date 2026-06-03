@@ -1,7 +1,6 @@
 package com.example.concurrent_sync_lab.feature.diary
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,14 +16,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.HorizontalDivider
@@ -32,23 +27,32 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.concurrent_sync_lab.feature.format.nameKR
+import java.time.LocalDate
 
 @Composable
 fun DiaryScreen(
+    diaryUiState: DiaryUiState,
     modifier: Modifier = Modifier
 ) {
+    val uiState by remember { mutableStateOf(diaryUiState) }
     Column(
         modifier = modifier
     ) {
         UserInfoBar(
+            userName = uiState.userName,
+            totalWritingCount = uiState.totalWritingCount,
+            continuousWritingCount = uiState.continuousWritingCount,
             modifier = Modifier
                 .background(color = Color.DarkGray)
                 .padding(8.dp)
@@ -66,6 +70,8 @@ fun DiaryScreen(
             color = Color.LightGray
         )
         DailyCard(
+            nowDate = uiState.nowDate,
+            dailySubject = uiState.dailySubject,
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxSize()
@@ -85,6 +91,9 @@ fun DiaryScreen(
 
 @Composable
 private fun UserInfoBar(
+    userName: String,
+    totalWritingCount: Int,
+    continuousWritingCount: Int,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -105,7 +114,7 @@ private fun UserInfoBar(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start
         ) {
-            Text("하로", color = Color.White)
+            Text(userName, color = Color.White)
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -114,14 +123,14 @@ private fun UserInfoBar(
                     contentDescription = "총 개수 아이콘",
                     tint = Color.Cyan
                 )
-                Text("총 3편", color = Color.White)
+                Text("총 ${totalWritingCount}편", color = Color.White)
                 Text(" · ", color = Color.White)
                 Icon(
                     imageVector = Icons.Default.Favorite,
-                    contentDescription = "0일 연속 작성 중 아이콘",
+                    contentDescription = "x일 연속 작성 중 아이콘",
                     tint = Color.Red
                 )
-                Text("0일 연속 작성 중", color = Color.White)
+                Text("${continuousWritingCount}일 연속 작성 중", color = Color.White)
             }
         }
         Icon(
@@ -141,6 +150,8 @@ private fun Calendar(modifier: Modifier = Modifier) {
 
 @Composable
 private fun DailyCard(
+    nowDate: LocalDate,
+    dailySubject: String,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -148,10 +159,14 @@ private fun DailyCard(
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         DailyInfoCard(
+            todayMonth = nowDate.monthValue,
+            todayDays = nowDate.dayOfMonth,
+            todayYoil = nowDate.dayOfWeek.nameKR(),
             modifier = Modifier
                 .fillMaxWidth()
         )
         DailySubjectCard(
+            dailySubject = dailySubject,
             modifier = Modifier
                 .background(color = Color.LightGray, shape = RoundedCornerShape(10.dp))
                 .fillMaxWidth()
@@ -169,6 +184,9 @@ private fun DailyCard(
 
 @Composable
 private fun DailyInfoCard(
+    todayMonth: Int,
+    todayDays: Int,
+    todayYoil: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -180,7 +198,11 @@ private fun DailyInfoCard(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("6월 1일 월요일", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            Text(
+                "${todayMonth}월 ${todayDays}일 ${todayYoil}요일",
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
+            )
             Text(" · ", color = Color.LightGray)
             Text("미작성", color = Color.LightGray, fontSize = 12.sp)
         }
@@ -199,7 +221,10 @@ private fun DailyInfoCard(
 }
 
 @Composable
-private fun DailySubjectCard(modifier: Modifier = Modifier) {
+private fun DailySubjectCard(
+    dailySubject: String,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier.padding(vertical = 10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
@@ -217,7 +242,7 @@ private fun DailySubjectCard(modifier: Modifier = Modifier) {
                 tint = Color.DarkGray
             )
         }
-        Text("How does this month begin for you?")
+        Text(dailySubject)
     }
 }
 
@@ -242,5 +267,13 @@ private fun DiaryCreateButton(
 @Preview(showBackground = true)
 @Composable
 fun DiaryScreenPreview() {
-    DiaryScreen()
+    DiaryScreen(
+        diaryUiState = DiaryUiState(
+            userName = "하로",
+            totalWritingCount = 10,
+            continuousWritingCount = 2,
+            nowDate = LocalDate.now(),
+            dailySubject = "How does this month begin for you?"
+        )
+    )
 }

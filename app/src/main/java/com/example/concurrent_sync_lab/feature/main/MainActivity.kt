@@ -13,12 +13,14 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.example.concurrent_sync_lab.feature.diary.DiaryScreen
+import com.example.concurrent_sync_lab.feature.diary.DiaryUiState
 import com.example.concurrent_sync_lab.feature.feed.FeedScreen
-import com.example.concurrent_sync_lab.feature.mypage.MyPageScreen
-import com.example.concurrent_sync_lab.feature.wordbook.WordBookScreen
 import com.example.concurrent_sync_lab.feature.main.component.MainNavigationBar
+import com.example.concurrent_sync_lab.feature.mypage.MyPageScreen
 import com.example.concurrent_sync_lab.feature.navigation.AppRoute
+import com.example.concurrent_sync_lab.feature.wordbook.WordBookScreen
 import com.example.concurrent_sync_lab.ui.theme.ConcurrentsynclabTheme
+import java.time.LocalDate
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,10 +31,10 @@ class MainActivity : ComponentActivity() {
 
             ConcurrentsynclabTheme {
                 Scaffold(
-                    modifier = Modifier.Companion.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     bottomBar = {
                         MainNavigationBar(
-                            modifier = Modifier.Companion.navigationBarsPadding(),
+                            modifier = Modifier.navigationBarsPadding(),
                             onHomeClick = {
                                 backStack.add(AppRoute.Home)
                                 backStack.removeFirstOrNull()
@@ -57,16 +59,25 @@ class MainActivity : ComponentActivity() {
                         onBack = { backStack.removeLastOrNull() },
                         entryProvider = entryProvider {
                             entry<AppRoute.Home> {
-                                DiaryScreen(modifier = Modifier.Companion.padding(innerPadding))
+                                DiaryScreen(
+                                    modifier = Modifier.padding(innerPadding),
+                                    diaryUiState = DiaryUiState(
+                                        userName = "하로",
+                                        totalWritingCount = 10,
+                                        continuousWritingCount = 2,
+                                        nowDate = LocalDate.now(),
+                                        dailySubject = "How does this month begin for you?"
+                                    )
+                                )
                             }
                             entry<AppRoute.WordBook> {
-                                WordBookScreen(modifier = Modifier.Companion.padding(innerPadding))
+                                WordBookScreen(modifier = Modifier.padding(innerPadding))
                             }
                             entry<AppRoute.Feed> {
-                                FeedScreen(modifier = Modifier.Companion.padding(innerPadding))
+                                FeedScreen(modifier = Modifier.padding(innerPadding))
                             }
                             entry<AppRoute.MyPage> {
-                                MyPageScreen(modifier = Modifier.Companion.padding(innerPadding))
+                                MyPageScreen(modifier = Modifier.padding(innerPadding))
                             }
                         }
                     )
