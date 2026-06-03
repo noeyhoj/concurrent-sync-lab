@@ -11,15 +11,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,16 +36,36 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.io.path.Path
 
 @Composable
 fun WordBookScreen(
+    wordBookUiState: WordBookUiState,
     modifier: Modifier = Modifier
 ) {
+    var uiState by remember { mutableStateOf(wordBookUiState) }
+
+    fun updateIsActive(targetId: String) {
+        uiState = uiState.copy(
+            wordList = uiState.wordList.map { word ->
+                if (word.id == targetId) {
+                    word.copy(
+                        isActive = !word.isActive
+                    )
+                } else {
+                    word
+                }
+            }
+        )
+    }
+
     Column(
         modifier = modifier.fillMaxSize()
     ) {
         SearchBar()
         WordCardList(
+            wordList = uiState.wordList,
+            updateIsActive = { updateIsActive(it) },
             modifier = Modifier
                 .background(color = Color.LightGray)
                 .padding(10.dp)
@@ -83,13 +111,16 @@ private fun SearchBar() {
 }
 
 @Composable
-private fun SortBar() {
+private fun SortBar(
+    wordListCount: Int,
+    modifier: Modifier = Modifier,
+) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text("총 2개", color = Color.DarkGray)
+        Text("총 ${wordListCount}개", color = Color.DarkGray)
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
@@ -106,35 +137,43 @@ private fun SortBar() {
 
 @Composable
 private fun WordCardList(
+    wordList: List<WordCardUiModel>,
+    updateIsActive: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    LazyColumn(
         modifier = modifier
     ) {
-        SortBar()
-        Spacer(modifier = Modifier.height(20.dp))
-        Text("3월", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-        Column() {
-            Spacer(modifier = Modifier.height(20.dp))
-            WordCard(
-                phrasal = "동사",
-                ldiom = "명사",
-                sentence = "take a breather"
+        item {
+            SortBar(
+                wordListCount = wordList.size,
             )
             Spacer(modifier = Modifier.height(20.dp))
+            Text("3월", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+        }
+        items(
+            items = wordList,
+            key = { it.id }
+        ) {
             WordCard(
-                ldiom = "명사",
-                sentence = "take it one step at a time"
+                phrasal = it.phrasal,
+                ldiom = it.ldiom,
+                sentence = it.sentence,
+                isActive = it.isActive,
+                updateIsActive = { updateIsActive(it.id) }
             )
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
 
 @Composable
 private fun WordCard(
-    phrasal: String = "",
-    ldiom: String = "",
-    sentence: String = ""
+    phrasal: String,
+    ldiom: String ,
+    sentence: String,
+    isActive: Boolean,
+    updateIsActive: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -152,37 +191,50 @@ private fun WordCard(
     ) {
         Column {
             Row {
-                if (phrasal.isNotBlank()) {
-                    TagCard(
-                        text = phrasal,
-                        textColor = Color.White,
-                        modifier = Modifier
-                            .background(
-                                color = Color.Red,
-                                shape = RoundedCornerShape(15.dp)
-                            ),
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                }
                 TagCard(
-                    text = ldiom,
-                    textColor = Color.DarkGray,
+                    text = phrasal,
+                    textColor = Color.White,
                     modifier = Modifier
                         .background(
-                            color = Color.LightGray,
+                            color = Color.Red,
                             shape = RoundedCornerShape(15.dp)
                         ),
                 )
+                if (ldiom.isNotBlank()) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    TagCard(
+                        text = ldiom,
+                        textColor = Color.DarkGray,
+                        modifier = Modifier
+                            .background(
+                                color = Color.LightGray,
+                                shape = RoundedCornerShape(15.dp)
+                            ),
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(6.dp))
             Text(sentence, fontSize = 16.sp)
         }
-
-        Icon(
-            imageVector = Icons.Default.Email,
-            contentDescription = "이메일 아이콘",
-            tint = Color.Black
-        )
+        IconButton(
+            onClick = {
+                updateIsActive()
+            }
+        ) {
+            if (isActive) {
+                Icon(
+                    imageVector = Icons.Default.Email,
+                    contentDescription = "이메일 아이콘",
+                    tint = Color.Black
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Default.MailOutline,
+                    contentDescription = "이메일 아이콘",
+                    tint = Color.LightGray
+                )
+            }
+        }
     }
 }
 
@@ -203,5 +255,30 @@ private fun TagCard(
 @Preview(showBackground = true)
 @Composable
 private fun WordBookScreenPreview() {
-    WordBookScreen()
+    WordBookScreen(
+        wordBookUiState = WordBookUiState(
+            wordList = listOf(
+                WordCardUiModel(
+                    phrasal = "동사",
+                    ldiom = "숙어",
+                    sentence = "stay motivated"
+                ),
+                WordCardUiModel(
+                    phrasal = "동사",
+                    ldiom = "숙어",
+                    sentence = "stay motivated"
+                ),
+                WordCardUiModel(
+                    phrasal = "동사",
+                    ldiom = "숙어",
+                    sentence = "hone skills"
+                ),
+                WordCardUiModel(
+                    phrasal = "동사",
+                    ldiom = "",
+                    sentence = "unwind"
+                )
+            )
+        )
+    )
 }

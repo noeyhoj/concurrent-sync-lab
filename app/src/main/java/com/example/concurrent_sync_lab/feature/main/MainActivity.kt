@@ -19,6 +19,8 @@ import com.example.concurrent_sync_lab.feature.main.component.MainNavigationBar
 import com.example.concurrent_sync_lab.feature.mypage.MyPageScreen
 import com.example.concurrent_sync_lab.feature.navigation.AppRoute
 import com.example.concurrent_sync_lab.feature.wordbook.WordBookScreen
+import com.example.concurrent_sync_lab.feature.wordbook.WordBookUiState
+import com.example.concurrent_sync_lab.feature.wordbook.WordCardUiModel
 import com.example.concurrent_sync_lab.ui.theme.ConcurrentsynclabTheme
 import java.time.LocalDate
 
@@ -71,7 +73,33 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             entry<AppRoute.WordBook> {
-                                WordBookScreen(modifier = Modifier.padding(innerPadding))
+                                WordBookScreen(
+                                    wordBookUiState = WordBookUiState(
+                                        wordList = listOf(
+                                            WordCardUiModel(
+                                                phrasal = "동사",
+                                                ldiom = "숙어",
+                                                sentence = "stay motivated"
+                                            ),
+                                            WordCardUiModel(
+                                                phrasal = "동사",
+                                                ldiom = "숙어",
+                                                sentence = "stay motivated"
+                                            ),
+                                            WordCardUiModel(
+                                                phrasal = "동사",
+                                                ldiom = "숙어",
+                                                sentence = "hone skills"
+                                            ),
+                                            WordCardUiModel(
+                                                phrasal = "동사",
+                                                ldiom = "",
+                                                sentence = "unwind"
+                                            )
+                                        )
+                                    ),
+                                    modifier = Modifier.padding(innerPadding)
+                                )
                             }
                             entry<AppRoute.Feed> {
                                 FeedScreen(modifier = Modifier.padding(innerPadding))
