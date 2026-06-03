@@ -19,6 +19,7 @@ import com.example.concurrent_sync_lab.feature.feed.FeedScreen
 import com.example.concurrent_sync_lab.feature.feed.FeedUiState
 import com.example.concurrent_sync_lab.feature.main.component.MainNavigationBar
 import com.example.concurrent_sync_lab.feature.mypage.MyPageScreen
+import com.example.concurrent_sync_lab.feature.mypage.MyPageUiState
 import com.example.concurrent_sync_lab.feature.navigation.AppRoute
 import com.example.concurrent_sync_lab.feature.wordbook.WordBookScreen
 import com.example.concurrent_sync_lab.feature.wordbook.WordBookUiState
@@ -137,7 +138,12 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             entry<AppRoute.MyPage> {
-                                MyPageScreen(modifier = Modifier.padding(innerPadding))
+                                MyPageScreen(
+                                    modifier = Modifier.padding(innerPadding),
+                                    myPageUiState = MyPageUiState(
+                                        userName = "하로"
+                                    )
+                                )
                             }
                         }
                     )
