@@ -12,9 +12,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -25,6 +25,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,8 +39,11 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun FeedScreen(
+    feedUiState: FeedUiState,
     modifier: Modifier = Modifier
 ) {
+    var uiState by remember { mutableStateOf(feedUiState) }
+
     Column(
         modifier = modifier
             .padding(10.dp)
@@ -45,9 +52,9 @@ fun FeedScreen(
         FeedSearchBar()
         FeedButtonBar()
         FeedList(
+            feedList = uiState.feedList,
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(state = rememberScrollState())
                 .weight(1f)
         )
     }
@@ -81,42 +88,25 @@ private fun FeedSearchBar() {
 
 @Composable
 private fun FeedList(
+    feedList: List<FeedCardUiModel>,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    LazyColumn(
         modifier = modifier
     ) {
-        FeedCard(
-            nickname = "하로",
-            sequenceCount = 3,
-            minutesAgo = 10,
-            bodyText = "The ViewModel class is a business logic or screen level state holder. It exposes state to the UI and encapsulates related business logic. Its principal advantage is that it caches state and persists it through configuration changes. This means that your UI doesn't have to fetch data again when navigating between activities, or following configuration changes, such as when rotating the screen.",
-            likeCount = 0,
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        FeedCard(
-            nickname = "커비",
-            sequenceCount = 10,
-            minutesAgo = 21,
-            bodyText = "The ViewModel class is a business logic or screen level state holder. It exposes state to the UI and encapsulates related business logic. Its principal advantage is that it caches state and persists it through configuration changes. This means that your UI doesn't have to fetch data again when navigating between activities, or following configuration changes, such as when rotating the screen.",
-            likeCount = 10,
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        FeedCard(
-            nickname = "엘리",
-            sequenceCount = 7,
-            minutesAgo = 33,
-            bodyText = "The ViewModel class is a business logic or screen level state holder. It exposes state to the UI and encapsulates related business logic. Its principal advantage is that it caches state and persists it through configuration changes. This means that your UI doesn't have to fetch data again when navigating between activities, or following configuration changes, such as when rotating the screen.",
-            likeCount = 0
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        FeedCard(
-            nickname = "조디악",
-            sequenceCount = 1,
-            minutesAgo = 49,
-            bodyText = "The ViewModel class is a business logic or screen level state holder. It exposes state to the UI and encapsulates related business logic. Its principal advantage is that it caches state and persists it through configuration changes. This means that your UI doesn't have to fetch data again when navigating between activities, or following configuration changes, such as when rotating the screen.",
-            likeCount = 1
-        )
+        items(
+            items = feedList,
+            key = { it.id }
+        ) {
+            FeedCard(
+                nickname = it.userName,
+                sequenceCount = it.continuousWritingCount,
+                minutesAgo = 10,
+                bodyText = it.bodyText,
+                likeCount = it.likeCount
+            )
+            Spacer(modifier = Modifier.height(30.dp))
+        }
     }
 }
 
@@ -251,5 +241,34 @@ private fun FeedInfoBottomBar(
 @Preview(showBackground = true)
 @Composable
 private fun FeedScreenPreview() {
-    FeedScreen()
+    FeedScreen(
+        feedUiState = FeedUiState(
+            feedList = listOf(
+                FeedCardUiModel(
+                    userName = "하로",
+                    continuousWritingCount = 2,
+                    likeCount = 10,
+                    bodyText = "The ViewModel class is a business logic or screen level state holder. It exposes state to the UI and encapsulates related business logic."
+                ),
+                FeedCardUiModel(
+                    userName = "커비",
+                    continuousWritingCount = 10,
+                    likeCount = 9,
+                    bodyText = "Its principal advantage is that it caches state and persists it through configuration changes."
+                ),
+                FeedCardUiModel(
+                    userName = "엘리",
+                    continuousWritingCount = 7,
+                    likeCount = 3,
+                    bodyText = "This means that your UI doesn't have to fetch data again when navigating between activities, or following configuration changes, such as when rotating the screen."
+                ),
+                FeedCardUiModel(
+                    userName = "조디악",
+                    continuousWritingCount = 21,
+                    likeCount = 11,
+                    bodyText = "For more information on state holders, see the state holders guidance. Similarly, for more information on the UI layer generally, see the UI layer guidance."
+                )
+            )
+        )
+    )
 }
