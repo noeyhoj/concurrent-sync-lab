@@ -1,4 +1,4 @@
-package com.example.concurrent_sync_lab.common
+package com.example.concurrent_sync_lab.feature.main.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun BottomNavigationBar(
+fun MainNavigationBar(
     onHomeClick: () -> Unit,
     onWordBookClick: () -> Unit,
     onFeedClick: () -> Unit,

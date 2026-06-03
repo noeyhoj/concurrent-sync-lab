@@ -1,7 +1,6 @@
-package com.example.concurrent_sync_lab
+package com.example.concurrent_sync_lab.feature.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,12 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.example.concurrent_sync_lab.common.BottomNavigationBar
 import com.example.concurrent_sync_lab.feature.diary.DiaryScreen
 import com.example.concurrent_sync_lab.feature.feed.FeedScreen
 import com.example.concurrent_sync_lab.feature.mypage.MyPageScreen
 import com.example.concurrent_sync_lab.feature.wordbook.WordBookScreen
-import com.example.concurrent_sync_lab.navigation.AppRoute
+import com.example.concurrent_sync_lab.feature.main.component.MainNavigationBar
+import com.example.concurrent_sync_lab.feature.navigation.AppRoute
 import com.example.concurrent_sync_lab.ui.theme.ConcurrentsynclabTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,10 +29,10 @@ class MainActivity : ComponentActivity() {
 
             ConcurrentsynclabTheme {
                 Scaffold(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.Companion.fillMaxSize(),
                     bottomBar = {
-                        BottomNavigationBar(
-                            modifier = Modifier.navigationBarsPadding(),
+                        MainNavigationBar(
+                            modifier = Modifier.Companion.navigationBarsPadding(),
                             onHomeClick = {
                                 backStack.add(AppRoute.Home)
                                 backStack.removeFirstOrNull()
@@ -58,16 +57,16 @@ class MainActivity : ComponentActivity() {
                         onBack = { backStack.removeLastOrNull() },
                         entryProvider = entryProvider {
                             entry<AppRoute.Home> {
-                                DiaryScreen(modifier = Modifier.padding(innerPadding))
+                                DiaryScreen(modifier = Modifier.Companion.padding(innerPadding))
                             }
                             entry<AppRoute.WordBook> {
-                                WordBookScreen(modifier = Modifier.padding(innerPadding))
+                                WordBookScreen(modifier = Modifier.Companion.padding(innerPadding))
                             }
                             entry<AppRoute.Feed> {
-                                FeedScreen(modifier = Modifier.padding(innerPadding))
+                                FeedScreen(modifier = Modifier.Companion.padding(innerPadding))
                             }
                             entry<AppRoute.MyPage> {
-                                MyPageScreen(modifier = Modifier.padding(innerPadding))
+                                MyPageScreen(modifier = Modifier.Companion.padding(innerPadding))
                             }
                         }
                     )
