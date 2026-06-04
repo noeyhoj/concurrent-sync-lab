@@ -245,24 +245,28 @@ private fun FeedScreenPreview() {
         feedUiState = FeedUiState(
             feedList = listOf(
                 FeedCardUiModel(
+                    id = "feed_1",
                     userName = "하로",
                     continuousWritingCount = 2,
                     likeCount = 10,
                     bodyText = "The ViewModel class is a business logic or screen level state holder. It exposes state to the UI and encapsulates related business logic."
                 ),
                 FeedCardUiModel(
+                    id = "feed_2",
                     userName = "커비",
                     continuousWritingCount = 10,
                     likeCount = 9,
                     bodyText = "Its principal advantage is that it caches state and persists it through configuration changes."
                 ),
                 FeedCardUiModel(
+                    id = "feed_3",
                     userName = "엘리",
                     continuousWritingCount = 7,
                     likeCount = 3,
                     bodyText = "This means that your UI doesn't have to fetch data again when navigating between activities, or following configuration changes, such as when rotating the screen."
                 ),
                 FeedCardUiModel(
+                    id = "feed_4",
                     userName = "조디악",
                     continuousWritingCount = 21,
                     likeCount = 11,

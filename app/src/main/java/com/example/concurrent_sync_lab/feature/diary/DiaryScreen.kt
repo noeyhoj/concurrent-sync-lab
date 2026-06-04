@@ -50,9 +50,9 @@ fun DiaryScreen(
         modifier = modifier
     ) {
         UserInfoBar(
-            userName = uiState.userName,
-            totalWritingCount = uiState.totalWritingCount,
-            continuousWritingCount = uiState.continuousWritingCount,
+            userName = uiState.userInfoUiModel.userName,
+            totalWritingCount = uiState.userInfoUiModel.totalWritingCount,
+            continuousWritingCount = uiState.userInfoUiModel.continuousWritingCount,
             modifier = Modifier
                 .background(color = Color.DarkGray)
                 .padding(8.dp)
@@ -70,8 +70,8 @@ fun DiaryScreen(
             color = Color.LightGray
         )
         DailyCard(
-            nowDate = uiState.nowDate,
-            dailySubject = uiState.dailySubject,
+            nowDate = uiState.todayStatusCardUiModel.dataString,
+            dailySubject = uiState.recommendationCardUiModel.topicQuestion,
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxSize()
@@ -150,7 +150,7 @@ private fun Calendar(modifier: Modifier = Modifier) {
 
 @Composable
 private fun DailyCard(
-    nowDate: LocalDate,
+    nowDate: String,
     dailySubject: String,
     modifier: Modifier = Modifier
 ) {
@@ -159,9 +159,7 @@ private fun DailyCard(
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         DailyInfoCard(
-            todayMonth = nowDate.monthValue,
-            todayDays = nowDate.dayOfMonth,
-            todayYoil = nowDate.dayOfWeek.nameKR(),
+            nowDate = nowDate,
             modifier = Modifier
                 .fillMaxWidth()
         )
@@ -184,9 +182,7 @@ private fun DailyCard(
 
 @Composable
 private fun DailyInfoCard(
-    todayMonth: Int,
-    todayDays: Int,
-    todayYoil: String,
+    nowDate: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -199,7 +195,7 @@ private fun DailyInfoCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "${todayMonth}월 ${todayDays}일 ${todayYoil}요일",
+                nowDate,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
@@ -269,11 +265,20 @@ private fun DiaryCreateButton(
 fun DiaryScreenPreview() {
     DiaryScreen(
         diaryUiState = DiaryUiState(
-            userName = "하로",
-            totalWritingCount = 10,
-            continuousWritingCount = 2,
-            nowDate = LocalDate.now(),
-            dailySubject = "How does this month begin for you?"
+            userInfoUiModel = UserInfoUiModel(
+                userName = "하로",
+                totalWritingCount = 10,
+                continuousWritingCount = 2
+            ),
+            recommendationCardUiModel = RecommendationCardUiModel(
+                title = "오늘의 추천 주제",
+                topicQuestion = "How does this month begin for you?"
+            ),
+            todayStatusCardUiModel = TodayStatusCardUiModel(
+                dataString = "6월 4일 목요일",
+                timeLeft = "30시간",
+                writingStatus = "미작성"
+            )
         )
     )
 }

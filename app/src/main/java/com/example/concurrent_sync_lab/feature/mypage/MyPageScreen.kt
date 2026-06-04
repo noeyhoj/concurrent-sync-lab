@@ -70,7 +70,8 @@ fun MyPageScreen(
             SettingCard(
                 modifier = Modifier
                     .fillMaxSize()
-                    .weight(1f)
+                    .weight(1f),
+                version = uiState.version
             )
         }
     }
@@ -123,6 +124,7 @@ private fun UserInfoCard(
 
 @Composable
 private fun SettingCard(
+    version: String,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -170,7 +172,7 @@ private fun SettingCard(
             SettingCardTwo(
                 title = "버전 정보",
                 imageVector = Icons.Default.CheckCircle,
-                subText = "2.4.6"
+                subText = version
             )
             Spacer(modifier = Modifier.height(20.dp))
             SettingCardTwo(
@@ -246,7 +248,8 @@ private fun SettingCardTwo(
 private fun MyPageScreenPreview() {
     MyPageScreen(
         myPageUiState = MyPageUiState(
-            userName = "하로"
+            userName = "하로",
+            version = "2.4.6"
         )
     )
 }

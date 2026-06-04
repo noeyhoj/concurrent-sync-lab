@@ -14,6 +14,9 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.example.concurrent_sync_lab.feature.diary.DiaryScreen
 import com.example.concurrent_sync_lab.feature.diary.DiaryUiState
+import com.example.concurrent_sync_lab.feature.diary.RecommendationCardUiModel
+import com.example.concurrent_sync_lab.feature.diary.TodayStatusCardUiModel
+import com.example.concurrent_sync_lab.feature.diary.UserInfoUiModel
 import com.example.concurrent_sync_lab.feature.feed.FeedCardUiModel
 import com.example.concurrent_sync_lab.feature.feed.FeedScreen
 import com.example.concurrent_sync_lab.feature.feed.FeedUiState
@@ -25,7 +28,6 @@ import com.example.concurrent_sync_lab.feature.wordbook.WordBookScreen
 import com.example.concurrent_sync_lab.feature.wordbook.WordBookUiState
 import com.example.concurrent_sync_lab.feature.wordbook.WordCardUiModel
 import com.example.concurrent_sync_lab.ui.theme.ConcurrentsynclabTheme
-import java.time.LocalDate
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,11 +69,20 @@ class MainActivity : ComponentActivity() {
                                 DiaryScreen(
                                     modifier = Modifier.padding(innerPadding),
                                     diaryUiState = DiaryUiState(
-                                        userName = "하로",
-                                        totalWritingCount = 10,
-                                        continuousWritingCount = 2,
-                                        nowDate = LocalDate.now(),
-                                        dailySubject = "How does this month begin for you?"
+                                        userInfoUiModel = UserInfoUiModel(
+                                            userName = "하로",
+                                            totalWritingCount = 10,
+                                            continuousWritingCount = 2
+                                        ),
+                                        recommendationCardUiModel = RecommendationCardUiModel(
+                                            title = "오늘의 추천 주제",
+                                            topicQuestion = "How does this month begin for you?"
+                                        ),
+                                        todayStatusCardUiModel = TodayStatusCardUiModel(
+                                            dataString = "6월 4일 목요일",
+                                            timeLeft = "30시간",
+                                            writingStatus = "미작성"
+                                        )
                                     )
                                 )
                             }
@@ -110,24 +121,28 @@ class MainActivity : ComponentActivity() {
                                     feedUiState = FeedUiState(
                                         feedList = listOf(
                                             FeedCardUiModel(
+                                                id = "feed_1",
                                                 userName = "하로",
                                                 continuousWritingCount = 2,
                                                 likeCount = 10,
                                                 bodyText = "The ViewModel class is a business logic or screen level state holder. It exposes state to the UI and encapsulates related business logic."
                                             ),
                                             FeedCardUiModel(
+                                                id = "feed_2",
                                                 userName = "커비",
                                                 continuousWritingCount = 10,
                                                 likeCount = 9,
                                                 bodyText = "Its principal advantage is that it caches state and persists it through configuration changes."
                                             ),
                                             FeedCardUiModel(
+                                                id = "feed_3",
                                                 userName = "엘리",
                                                 continuousWritingCount = 7,
                                                 likeCount = 3,
                                                 bodyText = "This means that your UI doesn't have to fetch data again when navigating between activities, or following configuration changes, such as when rotating the screen."
                                             ),
                                             FeedCardUiModel(
+                                                id = "feed_4",
                                                 userName = "조디악",
                                                 continuousWritingCount = 21,
                                                 likeCount = 11,
@@ -141,7 +156,8 @@ class MainActivity : ComponentActivity() {
                                 MyPageScreen(
                                     modifier = Modifier.padding(innerPadding),
                                     myPageUiState = MyPageUiState(
-                                        userName = "하로"
+                                        userName = "하로",
+                                        version = "2.4.6"
                                     )
                                 )
                             }
