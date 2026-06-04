@@ -1,4 +1,4 @@
-package com.example.concurrent_sync_lab.data.dto
+package com.example.concurrent_sync_lab.data.dto.mypage
 
 import kotlinx.serialization.Serializable
 

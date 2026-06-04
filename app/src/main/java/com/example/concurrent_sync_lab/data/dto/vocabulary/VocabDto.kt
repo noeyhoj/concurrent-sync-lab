@@ -1,5 +1,6 @@
-package com.example.concurrent_sync_lab.data.dto
+package com.example.concurrent_sync_lab.data.dto.vocabulary
 
+import com.example.concurrent_sync_lab.data.dto.vocabulary.TagDto
 import kotlinx.serialization.Serializable
 
 @Serializable
