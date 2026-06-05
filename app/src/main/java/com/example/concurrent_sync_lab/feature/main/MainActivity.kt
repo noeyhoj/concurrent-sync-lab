@@ -72,30 +72,6 @@ class MainActivity : ComponentActivity() {
                             }
                             entry<AppRoute.WordBook> {
                                 WordBookScreen(
-                                    wordBookUiState = WordBookUiState(
-                                        wordList = listOf(
-                                            WordCardUiModel(
-                                                phrasal = "동사",
-                                                ldiom = "숙어",
-                                                sentence = "stay motivated"
-                                            ),
-                                            WordCardUiModel(
-                                                phrasal = "동사",
-                                                ldiom = "숙어",
-                                                sentence = "stay motivated"
-                                            ),
-                                            WordCardUiModel(
-                                                phrasal = "동사",
-                                                ldiom = "숙어",
-                                                sentence = "hone skills"
-                                            ),
-                                            WordCardUiModel(
-                                                phrasal = "동사",
-                                                ldiom = "",
-                                                sentence = "unwind"
-                                            )
-                                        )
-                                    ),
                                     modifier = Modifier.padding(innerPadding)
                                 )
                             }

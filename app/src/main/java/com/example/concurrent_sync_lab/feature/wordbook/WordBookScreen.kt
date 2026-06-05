@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,32 +41,18 @@ import kotlin.io.path.Path
 
 @Composable
 fun WordBookScreen(
-    wordBookUiState: WordBookUiState,
+    viewModel: WordBookViewModel = WordBookViewModel(),
     modifier: Modifier = Modifier
 ) {
-    var uiState by remember { mutableStateOf(wordBookUiState) }
-
-    fun updateIsActive(targetId: String) {
-        uiState = uiState.copy(
-            wordList = uiState.wordList.map { word ->
-                if (word.id == targetId) {
-                    word.copy(
-                        isActive = !word.isActive
-                    )
-                } else {
-                    word
-                }
-            }
-        )
-    }
+    val uiState = viewModel.uiState.collectAsState()
 
     Column(
         modifier = modifier.fillMaxSize()
     ) {
         SearchBar()
         WordCardList(
-            wordList = uiState.wordList,
-            updateIsActive = { updateIsActive(it) },
+            wordList = uiState.value.wordList,
+            updateIsActive = { viewModel.updateIsActive(it) },
             modifier = Modifier
                 .background(color = Color.LightGray)
                 .padding(10.dp)
@@ -255,30 +242,5 @@ private fun TagCard(
 @Preview(showBackground = true)
 @Composable
 private fun WordBookScreenPreview() {
-    WordBookScreen(
-        wordBookUiState = WordBookUiState(
-            wordList = listOf(
-                WordCardUiModel(
-                    phrasal = "동사",
-                    ldiom = "숙어",
-                    sentence = "stay motivated"
-                ),
-                WordCardUiModel(
-                    phrasal = "동사",
-                    ldiom = "숙어",
-                    sentence = "stay motivated"
-                ),
-                WordCardUiModel(
-                    phrasal = "동사",
-                    ldiom = "숙어",
-                    sentence = "hone skills"
-                ),
-                WordCardUiModel(
-                    phrasal = "동사",
-                    ldiom = "",
-                    sentence = "unwind"
-                )
-            )
-        )
-    )
+    WordBookScreen()
 }

@@ -11,8 +11,8 @@ class VocabularyRepositoryImpl(
         return service.getVocabulary().map {
             WordCardUiModel(
                 id = it.key,
-                phrasal = it.value.tags[0].name,
-                ldiom = it.value.tags[1].name,
+                phrasal = it.value.tags.getOrNull(0)?.name ?: "",
+                ldiom = it.value.tags.getOrNull(1)?.name ?: "",
                 sentence = it.value.word
             )
         }
