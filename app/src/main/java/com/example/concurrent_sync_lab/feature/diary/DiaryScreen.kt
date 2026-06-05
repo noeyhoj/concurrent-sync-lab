@@ -27,6 +27,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,15 +38,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.concurrent_sync_lab.feature.format.nameKR
-import java.time.LocalDate
 
 @Composable
 fun DiaryScreen(
-    diaryUiState: DiaryUiState,
+    viewModel: DiaryViewModel = DiaryViewModel(),
     modifier: Modifier = Modifier
 ) {
-    val uiState by remember { mutableStateOf(diaryUiState) }
+    val uiState by viewModel.uiState.collectAsState()
+
     Column(
         modifier = modifier
     ) {
@@ -263,22 +263,5 @@ private fun DiaryCreateButton(
 @Preview(showBackground = true)
 @Composable
 fun DiaryScreenPreview() {
-    DiaryScreen(
-        diaryUiState = DiaryUiState(
-            userInfoUiModel = UserInfoUiModel(
-                userName = "하로",
-                totalWritingCount = 10,
-                continuousWritingCount = 2
-            ),
-            recommendationCardUiModel = RecommendationCardUiModel(
-                title = "오늘의 추천 주제",
-                topicQuestion = "How does this month begin for you?"
-            ),
-            todayStatusCardUiModel = TodayStatusCardUiModel(
-                dataString = "6월 4일 목요일",
-                timeLeft = "30시간",
-                writingStatus = "미작성"
-            )
-        )
-    )
+    DiaryScreen()
 }

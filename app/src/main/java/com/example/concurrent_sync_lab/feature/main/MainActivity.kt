@@ -68,22 +68,6 @@ class MainActivity : ComponentActivity() {
                             entry<AppRoute.Home> {
                                 DiaryScreen(
                                     modifier = Modifier.padding(innerPadding),
-                                    diaryUiState = DiaryUiState(
-                                        userInfoUiModel = UserInfoUiModel(
-                                            userName = "하로",
-                                            totalWritingCount = 10,
-                                            continuousWritingCount = 2
-                                        ),
-                                        recommendationCardUiModel = RecommendationCardUiModel(
-                                            title = "오늘의 추천 주제",
-                                            topicQuestion = "How does this month begin for you?"
-                                        ),
-                                        todayStatusCardUiModel = TodayStatusCardUiModel(
-                                            dataString = "6월 4일 목요일",
-                                            timeLeft = "30시간",
-                                            writingStatus = "미작성"
-                                        )
-                                    )
                                 )
                             }
                             entry<AppRoute.WordBook> {

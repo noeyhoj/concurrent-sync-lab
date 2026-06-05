@@ -5,9 +5,9 @@ import com.example.concurrent_sync_lab.data.dto.home.TodayStatusDto
 import retrofit2.http.GET
 
 interface HomeService {
-    @GET("home.json/recommendation")
+    @GET("home/recommendation.json")
     suspend fun getRecommendation(): RecommendationDto
 
-    @GET("home.json/todayStatus")
+    @GET("home/todayStatus.json")
     suspend fun getTodayStatus(): TodayStatusDto
 }
