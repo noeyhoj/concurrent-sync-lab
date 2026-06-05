@@ -27,10 +27,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,10 +40,10 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun MyPageScreen(
-    myPageUiState: MyPageUiState,
+    viewModel: MyPageViewModel = MyPageViewModel(),
     modifier: Modifier = Modifier
 ) {
-    var uiState by remember { mutableStateOf(myPageUiState) }
+    val uiState by viewModel.uiState.collectAsState()
 
     Column(
         modifier = modifier.fillMaxSize()
@@ -246,10 +244,5 @@ private fun SettingCardTwo(
 @Preview(showBackground = true)
 @Composable
 private fun MyPageScreenPreview() {
-    MyPageScreen(
-        myPageUiState = MyPageUiState(
-            userName = "하로",
-            version = "2.4.6"
-        )
-    )
+    MyPageScreen()
 }

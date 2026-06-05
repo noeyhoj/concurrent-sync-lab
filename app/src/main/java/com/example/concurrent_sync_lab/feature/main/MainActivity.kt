@@ -83,10 +83,6 @@ class MainActivity : ComponentActivity() {
                             entry<AppRoute.MyPage> {
                                 MyPageScreen(
                                     modifier = Modifier.padding(innerPadding),
-                                    myPageUiState = MyPageUiState(
-                                        userName = "하로",
-                                        version = "2.4.6"
-                                    )
                                 )
                             }
                         }
