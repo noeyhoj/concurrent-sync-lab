@@ -7,6 +7,7 @@ import com.example.concurrent_sync_lab.data.repositoryimpl.userprofile.UserProfi
 import com.example.concurrent_sync_lab.data.service.RetrofitService
 import com.example.concurrent_sync_lab.data.service.mypage.MyPageService
 import com.example.concurrent_sync_lab.data.service.userprofile.UserProfileService
+import com.example.concurrent_sync_lab.feature.diary.UserInfoUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,8 +29,10 @@ class MyPageViewModel : ViewModel() {
 
     fun getMyPage() {
         viewModelScope.launch {
-            val myPage = myPageRepository.getAppSetting()
-            val userInfo = userProfileRepository.getUserInfo("haro_123")
+            val myPage = myPageRepository.getAppSetting().getOrDefault("")
+            val userInfo = userProfileRepository.getUserInfo("haro_123").getOrDefault(
+                UserInfoUiModel("", 0, 0)
+            )
             _uiState.value = MyPageUiState(
                 userName = userInfo.userName,
                 version = myPage

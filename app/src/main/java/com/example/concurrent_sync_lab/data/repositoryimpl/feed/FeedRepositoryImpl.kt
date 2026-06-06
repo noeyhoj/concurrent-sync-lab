@@ -7,16 +7,20 @@ import com.example.concurrent_sync_lab.feature.feed.FeedCardUiModel
 class FeedRepositoryImpl(
     val service: FeedService
 ) : FeedRepository {
-    override suspend fun getFeeds(): List<FeedCardUiModel> {
-        return service.getFeeds().map {
-            FeedCardUiModel(
-                id = it.key,
-                timeAgo = it.value.timeAgo,
-                userName = it.value.authorName,
-                continuousWritingCount = it.value.continuousWritingCount,
-                likeCount = it.value.likeCount,
-                bodyText = it.value.content
-            )
+    override suspend fun getFeeds(): Result<List<FeedCardUiModel>> {
+        return runCatching {
+            val response = service.getFeeds()
+
+            response.map {
+                FeedCardUiModel(
+                    id = it.value.authorName,
+                    bodyText = it.value.content,
+                    userName = it.value.authorName,
+                    continuousWritingCount = it.value.continuousWritingCount,
+                    likeCount = it.value.likeCount,
+                    timeAgo = it.value.timeAgo
+                )
+            }
         }
     }
 }

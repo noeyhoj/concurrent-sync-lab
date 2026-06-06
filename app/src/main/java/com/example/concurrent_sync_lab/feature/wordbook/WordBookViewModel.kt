@@ -2,6 +2,7 @@ package com.example.concurrent_sync_lab.feature.wordbook
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.concurrent_sync_lab.data.repositoryimpl.fake.FakeVocabularyRepositoryImpl
 import com.example.concurrent_sync_lab.data.repositoryimpl.vocabulary.VocabularyRepositoryImpl
 import com.example.concurrent_sync_lab.data.service.RetrofitService
 import com.example.concurrent_sync_lab.data.service.vocabulary.VocabularyService
@@ -24,7 +25,7 @@ class WordBookViewModel : ViewModel() {
 
     fun getVocabulary() {
         viewModelScope.launch {
-            val vocabulary = vocabularyRepository.getVocabularyList()
+            val vocabulary = vocabularyRepository.getVocabularyList().getOrDefault(emptyList())
             _uiState.update {
                 it.copy(
                     wordList = vocabulary

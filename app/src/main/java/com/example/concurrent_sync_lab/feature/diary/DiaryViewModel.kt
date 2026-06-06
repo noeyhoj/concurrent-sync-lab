@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DiaryViewModel: ViewModel() {
+class DiaryViewModel : ViewModel() {
     private val homeService = RetrofitService.retrofit.create(HomeService::class.java)
     private val userService = RetrofitService.retrofit.create(UserProfileService::class.java)
     private val homeRepository = HomeRepositoryImpl(homeService)
@@ -28,9 +28,12 @@ class DiaryViewModel: ViewModel() {
 
     fun getDiary() {
         viewModelScope.launch {
-            val recommendation = homeRepository.getRecommendation()
-            val todayStatus = homeRepository.getTodayStatus()
+            val recommendation =
+                homeRepository.getRecommendation().getOrDefault(RecommendationCardUiModel("", ""))
+            val todayStatus =
+                homeRepository.getTodayStatus().getOrDefault(TodayStatusCardUiModel("", "", ""))
             val userInfo = userProfileRepository.getUserInfo("haro_123")
+                .getOrDefault(UserInfoUiModel("", 0, 0))
             _uiState.update {
                 it.copy(
                     recommendationCardUiModel = recommendation,

@@ -23,7 +23,7 @@ class FeedViewModel : ViewModel() {
 
     fun getFeed() {
         viewModelScope.launch {
-            val feed = feedRepository.getFeeds()
+            val feed = feedRepository.getFeeds().getOrDefault(emptyList())
             _uiState.value = FeedUiState(
                 feedList = feed
             )

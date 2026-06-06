@@ -8,21 +8,25 @@ import com.example.concurrent_sync_lab.feature.diary.TodayStatusCardUiModel
 class HomeRepositoryImpl(
     val service: HomeService
 ) : HomeRepository {
-    override suspend fun getRecommendation(): RecommendationCardUiModel {
-        return service.getRecommendation().let {
+    override suspend fun getRecommendation(): Result<RecommendationCardUiModel> {
+        return runCatching {
+            val response = service.getRecommendation()
+
             RecommendationCardUiModel(
-                title = it.title,
-                topicQuestion = it.topicQuestion
+                title = response.title,
+                topicQuestion = response.topicQuestion
             )
         }
     }
 
-    override suspend fun getTodayStatus(): TodayStatusCardUiModel {
-        return service.getTodayStatus().let {
+    override suspend fun getTodayStatus(): Result<TodayStatusCardUiModel> {
+        return runCatching {
+            val response = service.getTodayStatus()
+
             TodayStatusCardUiModel(
-                dataString = it.dateString,
-                timeLeft = it.timeLeft,
-                writingStatus = it.writingStatus
+                dataString = response.dateString,
+                timeLeft = response.timeLeft,
+                writingStatus = response.writingStatus
             )
         }
     }

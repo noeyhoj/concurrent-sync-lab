@@ -7,14 +7,18 @@ import com.example.concurrent_sync_lab.feature.wordbook.WordCardUiModel
 class VocabularyRepositoryImpl(
     val service: VocabularyService
 ) : VocabularyRepository {
-    override suspend fun getVocabularyList(): List<WordCardUiModel> {
-        return service.getVocabulary().map {
-            WordCardUiModel(
-                id = it.key,
-                phrasal = it.value.tags.getOrNull(0)?.name ?: "",
-                ldiom = it.value.tags.getOrNull(1)?.name ?: "",
-                sentence = it.value.word
-            )
+    override suspend fun getVocabularyList(): Result<List<WordCardUiModel>> {
+        return runCatching {
+            val response = service.getVocabulary()
+
+            response.map {
+                WordCardUiModel(
+                    id = it.key,
+                    phrasal = it.value.tags.getOrNull(0)?.name ?: "",
+                    ldiom = it.value.tags.getOrNull(1)?.name ?: "",
+                    sentence = it.value.word
+                )
+            }
         }
     }
 }
