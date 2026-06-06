@@ -1,4 +1,4 @@
-package com.example.concurrent_sync_lab.feature.wordbook
+package com.example.concurrent_sync_lab.feature.vocabulary
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,10 +25,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,11 +33,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlin.io.path.Path
 
 @Composable
 fun WordBookScreen(
-    viewModel: WordBookViewModel = WordBookViewModel(),
+    viewModel: VocabularyViewModel = VocabularyViewModel(),
     modifier: Modifier = Modifier
 ) {
     val uiState = viewModel.uiState.collectAsState()
@@ -50,8 +45,8 @@ fun WordBookScreen(
         modifier = modifier.fillMaxSize()
     ) {
         SearchBar()
-        WordCardList(
-            wordList = uiState.value.wordList,
+        VocabularyList(
+            vocabularyList = uiState.value.vocabularyList,
             updateIsActive = { viewModel.updateIsActive(it) },
             modifier = Modifier
                 .background(color = Color.LightGray)
@@ -99,7 +94,7 @@ private fun SearchBar() {
 
 @Composable
 private fun SortBar(
-    wordListCount: Int,
+    vocabularyListCount: Int,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -107,7 +102,7 @@ private fun SortBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text("총 ${wordListCount}개", color = Color.DarkGray)
+        Text("총 ${vocabularyListCount}개", color = Color.DarkGray)
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
@@ -123,8 +118,8 @@ private fun SortBar(
 }
 
 @Composable
-private fun WordCardList(
-    wordList: List<WordCardUiModel>,
+private fun VocabularyList(
+    vocabularyList: List<VocabularyUiModel>,
     updateIsActive: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -133,13 +128,13 @@ private fun WordCardList(
     ) {
         item {
             SortBar(
-                wordListCount = wordList.size,
+                vocabularyListCount = vocabularyList.size,
             )
             Spacer(modifier = Modifier.height(20.dp))
             Text("3월", fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
         items(
-            items = wordList,
+            items = vocabularyList,
             key = { it.id }
         ) {
             WordCard(

@@ -13,14 +13,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DiaryViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
     private val homeService = RetrofitService.retrofit.create(HomeService::class.java)
     private val userService = RetrofitService.retrofit.create(UserProfileService::class.java)
     private val homeRepository = HomeRepositoryImpl(homeService)
     private val userProfileRepository = UserProfileRepositoryImpl(userService)
 
-    private val _uiState = MutableStateFlow<DiaryUiState>(DiaryUiState())
-    val uiState: StateFlow<DiaryUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState())
+    val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
         getDiary()

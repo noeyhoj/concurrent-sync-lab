@@ -13,20 +13,11 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.example.concurrent_sync_lab.feature.diary.DiaryScreen
-import com.example.concurrent_sync_lab.feature.diary.DiaryUiState
-import com.example.concurrent_sync_lab.feature.diary.RecommendationCardUiModel
-import com.example.concurrent_sync_lab.feature.diary.TodayStatusCardUiModel
-import com.example.concurrent_sync_lab.feature.diary.UserInfoUiModel
-import com.example.concurrent_sync_lab.feature.feed.FeedCardUiModel
 import com.example.concurrent_sync_lab.feature.feed.FeedScreen
-import com.example.concurrent_sync_lab.feature.feed.FeedUiState
 import com.example.concurrent_sync_lab.feature.main.component.MainNavigationBar
 import com.example.concurrent_sync_lab.feature.mypage.MyPageScreen
-import com.example.concurrent_sync_lab.feature.mypage.MyPageUiState
 import com.example.concurrent_sync_lab.feature.navigation.AppRoute
-import com.example.concurrent_sync_lab.feature.wordbook.WordBookScreen
-import com.example.concurrent_sync_lab.feature.wordbook.WordBookUiState
-import com.example.concurrent_sync_lab.feature.wordbook.WordCardUiModel
+import com.example.concurrent_sync_lab.feature.vocabulary.WordBookScreen
 import com.example.concurrent_sync_lab.ui.theme.ConcurrentsynclabTheme
 
 class MainActivity : ComponentActivity() {
