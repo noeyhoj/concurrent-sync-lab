@@ -1,4 +1,4 @@
-package com.example.concurrent_sync_lab.feature.wordbook
+package com.example.concurrent_sync_lab.feature.vocabulary
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,10 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,36 +33,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlin.io.path.Path
 
 @Composable
 fun WordBookScreen(
-    wordBookUiState: WordBookUiState,
+    viewModel: VocabularyViewModel = VocabularyViewModel(),
     modifier: Modifier = Modifier
 ) {
-    var uiState by remember { mutableStateOf(wordBookUiState) }
-
-    fun updateIsActive(targetId: String) {
-        uiState = uiState.copy(
-            wordList = uiState.wordList.map { word ->
-                if (word.id == targetId) {
-                    word.copy(
-                        isActive = !word.isActive
-                    )
-                } else {
-                    word
-                }
-            }
-        )
-    }
+    val uiState = viewModel.uiState.collectAsState()
 
     Column(
         modifier = modifier.fillMaxSize()
     ) {
         SearchBar()
-        WordCardList(
-            wordList = uiState.wordList,
-            updateIsActive = { updateIsActive(it) },
+        VocabularyList(
+            vocabularyList = uiState.value.vocabularyList,
+            updateIsActive = { viewModel.updateIsActive(it) },
             modifier = Modifier
                 .background(color = Color.LightGray)
                 .padding(10.dp)
@@ -112,7 +94,7 @@ private fun SearchBar() {
 
 @Composable
 private fun SortBar(
-    wordListCount: Int,
+    vocabularyListCount: Int,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -120,7 +102,7 @@ private fun SortBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text("총 ${wordListCount}개", color = Color.DarkGray)
+        Text("총 ${vocabularyListCount}개", color = Color.DarkGray)
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
@@ -136,8 +118,8 @@ private fun SortBar(
 }
 
 @Composable
-private fun WordCardList(
-    wordList: List<WordCardUiModel>,
+private fun VocabularyList(
+    vocabularyList: List<VocabularyUiModel>,
     updateIsActive: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -146,13 +128,13 @@ private fun WordCardList(
     ) {
         item {
             SortBar(
-                wordListCount = wordList.size,
+                vocabularyListCount = vocabularyList.size,
             )
             Spacer(modifier = Modifier.height(20.dp))
             Text("3월", fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
         items(
-            items = wordList,
+            items = vocabularyList,
             key = { it.id }
         ) {
             WordCard(
@@ -255,30 +237,5 @@ private fun TagCard(
 @Preview(showBackground = true)
 @Composable
 private fun WordBookScreenPreview() {
-    WordBookScreen(
-        wordBookUiState = WordBookUiState(
-            wordList = listOf(
-                WordCardUiModel(
-                    phrasal = "동사",
-                    ldiom = "숙어",
-                    sentence = "stay motivated"
-                ),
-                WordCardUiModel(
-                    phrasal = "동사",
-                    ldiom = "숙어",
-                    sentence = "stay motivated"
-                ),
-                WordCardUiModel(
-                    phrasal = "동사",
-                    ldiom = "숙어",
-                    sentence = "hone skills"
-                ),
-                WordCardUiModel(
-                    phrasal = "동사",
-                    ldiom = "",
-                    sentence = "unwind"
-                )
-            )
-        )
-    )
+    WordBookScreen()
 }

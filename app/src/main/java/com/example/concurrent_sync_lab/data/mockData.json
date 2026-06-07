@@ -1,0 +1,91 @@
+{
+  "userProfile": {
+    "haro_123": {
+      "nickname": "하로",
+      "totalDiaryCount": 10,
+      "consecutiveWritingDays": 2,
+      "isVerified": true
+    }
+  },
+  "home": {
+    "todayStatus": {
+      "dateString": "6월 3일 수요일",
+      "writingStatus": "미작성",
+      "timeLeft": "30시간 남았어요"
+    },
+    "recommendation": {
+      "title": "오늘의 추천 주제",
+      "topicQuestion": "How does this month begin for you?"
+    }
+  },
+  "vocabulary": {
+    "vocab_1": {
+      "monthGroup": "3월",
+      "word": "stay motivated",
+      "tags": [
+        { "name": "동사", "type": "primary" },
+        { "name": "숙어", "type": "secondary" }
+      ],
+      "createdAt": 1717420000000
+    },
+    "vocab_2": {
+      "monthGroup": "3월",
+      "word": "stay motivated",
+      "tags": [
+        { "name": "동사", "type": "primary" },
+        { "name": "숙어", "type": "secondary" }
+      ],
+      "createdAt": 1717410000000
+    },
+    "vocab_3": {
+      "monthGroup": "3월",
+      "word": "hone skills",
+      "tags": [
+        { "name": "동사", "type": "primary" },
+        { "name": "숙어", "type": "secondary" }
+      ],
+      "createdAt": 1717400000000
+    },
+    "vocab_4": {
+      "monthGroup": "3월",
+      "word": "unwind",
+      "tags": [
+        { "name": "동사", "type": "primary" }
+      ],
+      "createdAt": 1717390000000
+    }
+  },
+  "feeds": {
+    "feed_1": {
+      "authorName": "크시건담",
+      "continuousWritingCount": 2,
+      "timeAgo": "10분 전",
+      "content": "The ViewModel class is a business logic or screen level state holder. It exposes state to the UI and encapsulates related business logic.",
+      "likeCount": 10
+    },
+    "feed_2": {
+      "authorName": "뉴건담",
+      "continuousWritingCount": 10,
+      "timeAgo": "10분 전",
+      "content": "Its principal advantage is that it caches state and persists it through configuration changes.",
+      "likeCount": 9
+    },
+    "feed_3": {
+      "authorName": "프리덤",
+      "continuousWritingCount": 7,
+      "timeAgo": "10분 전",
+      "content": "This means that your UI doesn't have to fetch data again when navigating between activities, or following configuration changes, such as when rotating the screen.",
+      "likeCount": 3
+    },
+    "feed_4": {
+      "authorName": "윙건담",
+      "continuousWritingCount": 21,
+      "timeAgo": "10분 전",
+      "content": "For more information on state holders, see the state holders",
+      "likeCount": 0
+    }
+  },
+  "appSettings": {
+    "version": "2.4.6"
+  }
+}
